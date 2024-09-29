@@ -1,3 +1,4 @@
+//14:21
 const puppeteer = require('puppeteer');
 const XLSX = require('xlsx');
 
@@ -23,7 +24,7 @@ const XLSX = require('xlsx');
     try {
         for (let i = 0; i < kategorie.length; i++) {
 
-            for (let zk = 0; zk <= 200; zk++) {
+            for (let zk = 0; zk <= 51; zk++) {
                 if (zk === 1) continue;
 
                 const url = `https://aleo.com/pl/firmy/${kategorie[i]}/${zk}/?registryType=CEIDG`;
@@ -52,7 +53,7 @@ const XLSX = require('xlsx');
                         const name_opcja = name_opcjaElement ? name_opcjaElement.innerText.trim() : null;
 
                         const regex = /\d/;
-                        return name && (name.startsWith('ul.') || name === 'Tak' || name === 'Nie' || name === 'Nie dotyczy' || name === ' ' || regex.test(name)) ? name_opcja : name;
+                        return name && (name.startsWith('ul.') || name === 'Tak' || name === 'Nie' || name === 'Nie dotyczy' || name === ' ' || name === 'aktywny' || name === 'zawieszony' || regex.test(name)) ? name_opcja : name;
                     });
 
                     const tel = await page.evaluate(() => {
@@ -79,11 +80,6 @@ const XLSX = require('xlsx');
                         allData[kategorie[i]] = [];
                     }
                     allData[kategorie[i]].push([wynik_nazwa, tel, mail, kategoria_gl, pzs_kat]);
-                    if (index === 1250) {
-                        i++;
-                    }
-                    if (index > 1250) break;
-                    index++;
                 }
             }
         }
